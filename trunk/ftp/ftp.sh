@@ -1,5 +1,7 @@
 #!/bin/sh
 #set -x
+JAVA_OPTS="-Xms256m -Xmx1024m -XX:MaxPermSize=120m"
+
 # resolve links - $0 may be a softlink
 PRG=`readlink -e $0`
 
@@ -15,11 +17,41 @@ do
      CPATH=$FILE_JAR:$CPATH
 done
 
-$JAVA_HOME/bin/java -Dftp.home="$PRGDIR" -classpath $CPATH uk.co.marcoratto.ftp.Ftp "$@"
+if [ -z "$JAVACMD" ] ; then
+  if [ -n "$JAVA_HOME"  ] ; then
+    # IBM's JDK on AIX uses strange locations for the executables
+    if [ -x "$JAVA_HOME/jre/sh/java" ] ; then
+      JAVACMD="$JAVA_HOME/jre/sh/java"
+    elif [ -x "$JAVA_HOME/jre/bin/java" ] ; then
+      JAVACMD="$JAVA_HOME/jre/bin/java"
+    else
+      JAVACMD="$JAVA_HOME/bin/java"
+    fi
+  else
+    JAVACMD=`which java 2> /dev/null `
+    if [ -z "$JAVACMD" ] ; then
+        JAVACMD=java
+    fi
+  fi
+fi
+
+if [ ! -x "$JAVACMD" ] 
+then
+  echo "Error: JAVA_HOME is not defined correctly."
+  echo "  We cannot execute $JAVACMD"
+  exit 1
+fi
+
+if [ ! -d "$HOME/.ftp" ]
+then
+	mkdir "$HOME/.ftp"
+	mkdir "$HOME/.ftp/log"
+fi
+
+"$JAVACMD" $JAVA_OPTS -Dlog4j.warn -classpath $CPATH uk.co.marcoratto.ftp.Ftp "$@"
 RET_CODE=$?
 if [ $RET_CODE -ne 0 ]
 then
 	echo "ERROR! java return error code $RET_CODE."
-	exit $RET_CODE
 fi
-exit 0
+exit $RET_CODE
