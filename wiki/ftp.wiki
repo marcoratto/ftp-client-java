@@ -4,7 +4,7 @@ Some features:
   * Multiplatform (yes! it is written ALL in Java SE)
   * Sys logging (using {{{log4j-1.2.16.jar}}}, default log file is located on this path {{{$USER_HOME/.ftp/log/ftp.log}}}; you can change configuration on the file {{{$FTP_HOME/res/log4j.properties}}})
   * Listener API (Java interface {{{uk.co.marcoratto.ftp.listeners.Listener}}}, see [Listeners] for more details)
-  * Code Coverage: 75.4%
+  * Code Coverage: 75.7%
 
 The available parameters are the following:
 
