@@ -1,86 +1,26 @@
 #labels Featured
-FTP (File Transfer Protocol) command-line tool written entirely in Java using JavaCC.
+Java Application for copying files using [http://en.wikipedia.org/wiki/Secure_copy SCP protocol].
+This java client uses the Apache Ant Task Scp modified (just the dependency from the library {{{jsch-0.1.44.jar}}}).
 
-Some features are the following:
+Some features:
 
- * Multiplatform (yes, of course, it is written all in Java)
- 
+  * Multiplatform (yes! it is written ALL in Java SE)
+  * Sys logging (using {{{log4j-1.2.16.jar}}}, default log file is located on this path {{{$USER_HOME/.scp/log/scp.log}}}; you can change configuration on the file {{{$SCP_HOME/res/log4j.properties}}})
+  * Listener API (Java interface {{{uk.co.marcoratto.scp.listeners.Listener}}}, see [Listeners] for more details)
 
-The FTP commands supported are the following:
+The available parameters are the following:
 
-|| *Command*    || *Description*       || *Status* || 
-|| !            || escape to the shell || n/a ||
-|| *?*          || *print local help information* || *implemented* || 
-|| $            || execute macro || || 
-|| account      || send account command to remote server || || 
-|| append       || append to a file || ||  
-|| *ascii*      || *set ascii transfer type* || *implemented* || 
-|| bell         || beep when command completed || || 
-|| *binary*     || *set binary transfer type* || *implemented* || 
-|| *bye*        || *terminate ftp session and exit* || *implemented* ||  
-|| case         || toggle mget upper/lower case id mapping || || 
-|| *cd*         || *change remote working directory* || *implemented* || 
-|| cdup         || change remote working directory to parent directory || ||  
-|| chmod        || change file permissions of remote file || ||  
-|| *close*      || *terminate ftp session* || *implemented* || 
-|| cr           || toggle carriage return stripping on ascii gets || || 
-|| *debug*      || *toggle/set debugging mode* || *implemented* || 
-|| *delete*     || *delete remote file* || *implemented* || 
-|| *dir*       	|| *list contents of remote directory* || *implemented* || 
-|| *disconnect*	|| *terminate ftp session* || *implemented* || 
-|| *exit*      	|| *terminate ftp session and exit* || *implemented* || 
-|| form      	|| set file transfer format || || 
-|| *get*       	|| *receive file* || *implemented* || 
-|| glob      	|| toggle metacharacter expansion of local file names || || 
-|| *hash*      	|| *toggle printing `#' for each buffer transferred* || *implemented* || 
-|| *help*      	|| *print local help information* || *implemented* || 
-|| idle      	|| get (set) idle timer on remote side || || 
-|| *image*     	|| *set binary transfer type* || *implemented* || 
-|| *lcd*       	|| *change local working directory* || *implemented* || 
-|| *ls*        	|| *list contents of remote directory* || *implemented* || 
-|| macdef    	|| define a macro || || 
-|| *mdelete*   	|| *delete multiple files* || *implemented* || 
-|| *mdir*      	|| *list contents of multiple remote directories* || *implemented* || 
-|| *mget*      	|| *get multiple files* || *implemented* || 
-|| *mkdir*     	|| *make directory on the remote machine* || *implemented* || 
-|| *mls*       	|| *list contents of multiple remote directories* || *implemented* || 
-|| mode      	|| set file transfer mode || || 
-|| modtime   	|| show last modification time of remote file || || 
-|| *mput*      	|| *send multiple files* || *implemented* || 
-|| newer     	|| get file if remote file is newer than local file || || 
-|| *nlist*     	|| *nlist contents of remote directory* || *implemented* || 
-|| nmap      	|| set templates for default file name mapping || || 
-|| ntrans    	|| set translation table for default file name mapping || || 
-|| *open*      	|| *connect to remote ftp* || *implemented* || 
-|| *passive*   	|| *enter passive transfer mode* || *implemented* || 
-|| *prompt*    	|| *force interactive prompting on multiple commands* || *implemented* || 
-|| proxy     	|| issue command on alternate connection || || 
-|| *put*       	|| *send one file* || *implemented* || 
-|| *pwd*       	|| *print working directory on remote machine* || *implemented* || 
-|| qc        	|| print ? in place of control characters on stdout || || 
-|| *quit*      	|| *terminate ftp session and exit* || *implemented* || 
-|| quote     	|| send arbitrary ftp command || || 
-|| *recv*      	|| *receive file* || *implemented* || 
-|| reget     	|| get file restarting at end of local file || || 
-|| *rename*    	|| *rename file* || *implemented* || 
-|| reset     	|| clear queued command replies || || 
-|| restart   	|| restart file transfer at bytecount || || 
-|| rhelp     	|| get help from remote server || || 
-|| *rmdir*     	|| *remove directory on the remote machine* || *implemented* || 
-|| rstatus   	|| show status of remote machine || || 
-|| runique   	|| toggle store unique for local files || || 
-|| *send*      	|| *send one file* || *implemented* || 
-|| sendport  	|| toggle use of PORT cmd for each data connection || || 
-|| site      	|| send site specific command to remote server.Try "rhelp site" or "site help" for more information || || 
-|| *size*      	|| *show size of remote file* || *implemented* || 
-|| status    	|| show current status || || 
-|| struct    	|| set file transfer structure || || 
-|| sunique   	|| toggle store unique on remote machine || || 
-|| system    	|| show remote system type || || 
-|| tenex     	|| set tenex file transfer type || || 
-|| tick      	|| toggle printing byte counter during transfers || || 
-|| trace     	|| toggle packet tracing || || 
-|| type      	|| set file transfer type || || 
-|| umask     	|| get (set) umask on remote side || || 
-|| *user*      	|| *send new user information* || *implemented* || 
-|| *verbose*   	|| *toggle verbose mode* || *implemented* || 
+|| *Parameter* || *Mandatory* || *Default* || *Description* ||
+|| *-source* || Yes || n/d || The source directory. This can be a local path or a remote path of the form {{{user[:password]@host:/directory/path}}}. :password can be omitted if you use key based authentication or specify the password attribute. The way remote path is recognized is whether it contains @ character or not. This will not work if your localPath contains @ character.||
+|| *-target* || Yes || n/d || The target directory. This can be a local path or a remote path of the form {{{user[:password]@host:/directory/path}}}. :password can be omitted if you use key based authentication or specify the password attribute. The way remote path is recognized is whether it contains @ character or not. This will not work if your localPath contains @ character.||
+|| *-port* || No || 22 ||The port to connect to on the remote host.||
+|| *-trust* || No || false || This trusts all unknown hosts if set to true. Note If you set this to false (the default), the host you connect to must be listed in your knownhosts file, this also implies that the file exists.||
+|| *-knownhosts* || No || ${user.home}/.ssh/known_hosts || This sets the known hosts file to use to validate the identity of the remote host. This must be a SSH2 format file. SSH1 format is not supported.||
+|| *-password* || No || No || The password. Not if you are using key based authentication or the password has been given in the file or todir attribute.||
+|| *-keyfile* || No || No || Location of the file holding the private key.||
+|| *-passphrase* || No || empty string if -keyfile specified || Passphrase for your private key.||
+|| *-sftp* || No || false || Determines whether SCP uses the sftp protocol. The sftp protocol is the file transfer protocol of SSH2. It is recommended that this be set to true if you are copying to/from a server that doesn't support scp1.||
+|| *-preserveLastModified* || n/a || false || Determines whether the last modification timestamp of downloaded files is preserved. It only works when transferring from a remote to a local system and probably doesn't work with a server that doesn't support SSH2.||
+|| *-v* || No || false || Determines whether SCP outputs verbosely to the user. Currently this means outputting dots/stars showing the progress of a file transfer.||
+|| *-r* || No || false || Search the file recursively.||
+|| *-ask* || No || false || Ask to digit the password.||
