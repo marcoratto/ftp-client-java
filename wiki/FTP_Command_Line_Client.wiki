@@ -1,0 +1,86 @@
+#labels Featured
+FTP (File Transfer Protocol) command-line tool written entirely in Java using JavaCC.
+
+Some features are the following:
+
+ * Multiplatform (yes, of course, it is written all in Java)
+ 
+
+The FTP commands supported are the following:
+
+|| *Command*    || *Description*       || *Status* || 
+|| !            || escape to the shell || n/a ||
+|| *?*          || *print local help information* || *implemented* || 
+|| $            || execute macro || || 
+|| account      || send account command to remote server || || 
+|| append       || append to a file || ||  
+|| *ascii*      || *set ascii transfer type* || *implemented* || 
+|| bell         || beep when command completed || || 
+|| *binary*     || *set binary transfer type* || *implemented* || 
+|| *bye*        || *terminate ftp session and exit* || *implemented* ||  
+|| case         || toggle mget upper/lower case id mapping || || 
+|| *cd*         || *change remote working directory* || *implemented* || 
+|| cdup         || change remote working directory to parent directory || ||  
+|| chmod        || change file permissions of remote file || ||  
+|| *close*      || *terminate ftp session* || *implemented* || 
+|| cr           || toggle carriage return stripping on ascii gets || || 
+|| *debug*      || *toggle/set debugging mode* || *implemented* || 
+|| *delete*     || *delete remote file* || *implemented* || 
+|| *dir*       	|| *list contents of remote directory* || *implemented* || 
+|| *disconnect*	|| *terminate ftp session* || *implemented* || 
+|| *exit*      	|| *terminate ftp session and exit* || *implemented* || 
+|| form      	|| set file transfer format || || 
+|| *get*       	|| *receive file* || *implemented* || 
+|| glob      	|| toggle metacharacter expansion of local file names || || 
+|| *hash*      	|| *toggle printing `#' for each buffer transferred* || *implemented* || 
+|| *help*      	|| *print local help information* || *implemented* || 
+|| idle      	|| get (set) idle timer on remote side || || 
+|| *image*     	|| *set binary transfer type* || *implemented* || 
+|| *lcd*       	|| *change local working directory* || *implemented* || 
+|| *ls*        	|| *list contents of remote directory* || *implemented* || 
+|| macdef    	|| define a macro || || 
+|| *mdelete*   	|| *delete multiple files* || *implemented* || 
+|| *mdir*      	|| *list contents of multiple remote directories* || *implemented* || 
+|| *mget*      	|| *get multiple files* || *implemented* || 
+|| *mkdir*     	|| *make directory on the remote machine* || *implemented* || 
+|| *mls*       	|| *list contents of multiple remote directories* || *implemented* || 
+|| mode      	|| set file transfer mode || || 
+|| modtime   	|| show last modification time of remote file || || 
+|| *mput*      	|| *send multiple files* || *implemented* || 
+|| newer     	|| get file if remote file is newer than local file || || 
+|| *nlist*     	|| *nlist contents of remote directory* || *implemented* || 
+|| nmap      	|| set templates for default file name mapping || || 
+|| ntrans    	|| set translation table for default file name mapping || || 
+|| *open*      	|| *connect to remote ftp* || *implemented* || 
+|| *passive*   	|| *enter passive transfer mode* || *implemented* || 
+|| *prompt*    	|| *force interactive prompting on multiple commands* || *implemented* || 
+|| proxy     	|| issue command on alternate connection || || 
+|| *put*       	|| *send one file* || *implemented* || 
+|| *pwd*       	|| *print working directory on remote machine* || *implemented* || 
+|| qc        	|| print ? in place of control characters on stdout || || 
+|| *quit*      	|| *terminate ftp session and exit* || *implemented* || 
+|| quote     	|| send arbitrary ftp command || || 
+|| *recv*      	|| *receive file* || *implemented* || 
+|| reget     	|| get file restarting at end of local file || || 
+|| *rename*    	|| *rename file* || *implemented* || 
+|| reset     	|| clear queued command replies || || 
+|| restart   	|| restart file transfer at bytecount || || 
+|| rhelp     	|| get help from remote server || || 
+|| *rmdir*     	|| *remove directory on the remote machine* || *implemented* || 
+|| rstatus   	|| show status of remote machine || || 
+|| runique   	|| toggle store unique for local files || || 
+|| *send*      	|| *send one file* || *implemented* || 
+|| sendport  	|| toggle use of PORT cmd for each data connection || || 
+|| site      	|| send site specific command to remote server.Try "rhelp site" or "site help" for more information || || 
+|| *size*      	|| *show size of remote file* || *implemented* || 
+|| status    	|| show current status || || 
+|| struct    	|| set file transfer structure || || 
+|| sunique   	|| toggle store unique on remote machine || || 
+|| system    	|| show remote system type || || 
+|| tenex     	|| set tenex file transfer type || || 
+|| tick      	|| toggle printing byte counter during transfers || || 
+|| trace     	|| toggle packet tracing || || 
+|| type      	|| set file transfer type || || 
+|| umask     	|| get (set) umask on remote side || || 
+|| *user*      	|| *send new user information* || *implemented* || 
+|| *verbose*   	|| *toggle verbose mode* || *implemented* || 
