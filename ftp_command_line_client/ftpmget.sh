@@ -19,11 +19,11 @@ fi
 
 TEMP_FILE=/tmp/ftpmget.txt
 
-echo open $1> $TEMP_FILE
-echo user $2 $3 >> $TEMP_FILE
-echo cd $4>> $TEMP_FILE
-echo lcd $5>> $TEMP_FILE
-# echo prompt>> $TEMP_FILE
+echo open $1>$TEMP_FILE
+echo user $2 $3 >>$TEMP_FILE
+echo cd $4>>$TEMP_FILE
+echo lcd $5>>$TEMP_FILE
+echo prompt>> $TEMP_FILE
 echo $7 >>  $TEMP_FILE
 echo mget $6>> $TEMP_FILE
 echo bye>> $TEMP_FILE
@@ -31,7 +31,7 @@ echo bye>> $TEMP_FILE
 echo Batch sequence:
 cat $TEMP_FILE
 
-$PRGDIR/ftp.sh -n -i<$TEMP_FILE
+$PRGDIR/ftp.sh -n -script $TEMP_FILE
 RET_CODE=$?
 
 if [ $RET_CODE -eq 0 ]

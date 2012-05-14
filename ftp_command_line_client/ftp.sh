@@ -59,7 +59,7 @@ then
 	mkdir "$HOME/.ftp/log"
 fi
 
-"$JAVACMD" $JAVA_OPTS -Dlog4j.warn -classpath $CPATH uk.co.marcoratto.ftp.Ftp "$@"
+"$JAVACMD" $JAVA_OPTS -Dlog4j.trace -classpath $CPATH uk.co.marcoratto.ftp.Runme "$@"
 RET_CODE=$?
 if [ $RET_CODE -ne 0 ]
 then

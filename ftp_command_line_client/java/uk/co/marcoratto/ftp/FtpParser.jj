@@ -5,7 +5,7 @@
   DEBUG_PARSER = false;
   JAVA_UNICODE_ESCAPE = false;  static = false;}PARSER_BEGIN(FtpParser)
 /*
- * Copyright (C) 2011 Marco Ratto
+ * Copyright (C) 2012 Marco Ratto
  *
  * This file is part of the project ftp-client-java.
  *
@@ -173,6 +173,31 @@ public class FtpParser {
   }
   private void reply(int i, String s) {
     System.out.println(i + " " + s);
+  }
+
+  private void connect()
+  {
+    	clientFTP = new ClientFTP();
+		try {
+    		clientFTP.connect(hostname, port);
+	        System.out.println("Connected to " + hostname);
+	        clientFTP.printReplyStrings();
+
+	        if (autoLogin) {
+				username = Utility.getDefaultUser();
+	    		username = Utility.input("Name (" + hostname + ":" + username + "):", username);
+	    		password = Utility.input("Password:", "");
+	        }
+
+	        if ((username != null) && (password != null))	        {	    		clientFTP.login(username, password, account);
+		        this.remoteDir = clientFTP.getRemoteDirectory();
+		        logger.info("remoteDir is " + this.remoteDir);
+			        
+	    		connected = true;  		
+	        }
+		} catch (ClientFTPException e) {
+		  logger.error(e.getMessage(), e);
+		}           
   }
 
   private void commandCD() {
@@ -581,6 +606,7 @@ public class FtpParser {
 	username = null;
 	password = null;
 	account = null;
+	logger.debug("USER call with " + args.size() + " args");
 	switch (args.size()) {
 	case 3:		
 		username = args.get(0);
@@ -605,7 +631,10 @@ public class FtpParser {
     if ((username == null) || (username.trim().length() == 0)) {
     	  System.out.println("usage: user username [password] [account]");
     }
-      }
+    logger.debug("username is " + username);
+    logger.debug("password is " + password);
+    logger.debug("account is " + account);
+    this.connect();      }
 
   private void commandTYPE() {
      if (!connected) {
@@ -724,29 +753,8 @@ public class FtpParser {
      if (Utility.checkHostname(this.hostname) == false) {
        System.out.println("ftp: " + this.hostname + ": Unknown host");
        return;     }
-       
-    	clientFTP = new ClientFTP();
-		try {
-    		clientFTP.connect(hostname, port);
-	        System.out.println("Connected to " + hostname);
-	        clientFTP.printReplyStrings();
 
-	        if (autoLogin) {
-				username = Utility.getDefaultUser();
-	    		username = Utility.input("Name (" + hostname + ":" + username + "):", username);
-	    		password = Utility.input("Password:", "");
-	    		clientFTP.login(username, password, account);
-	        }
-
-	        this.remoteDir = clientFTP.getRemoteDirectory();
-	        logger.info("remoteDir=" + this.remoteDir);
-	        
-    		connected = true;  		
-		} catch (ClientFTPException e) {
-		  logger.error(e.getMessage(), e);
-		}       
-       }
-
+     this.connect();  }
 }PARSER_END(FtpParser)SKIP :{	"\r"	| "\t"}TOKEN : /* OPERATORS */{  	< SPACE: " " >
 	  | < CRLF : "\n" >
       | < HELP : "HELP" | "HEL" | "HE" | "?" >
@@ -755,9 +763,10 @@ public class FtpParser {
       | < LCD : "LCD" >
       | < LS : "LS" | "DIR" >
 	  | < QC: "QC" >
+	  | < USER : "USER" | "USE" | "US" > 
       | < QUIT : "QUIT" | "QUI" | "BYE" | "EXIT" | "EXI" | "EX" | "DISCONNECT" | "DISCONNEC" | "DISCONNE" | "DISCONN" | "DISCO" | "DISC">
       | < MKDIR : "MKDIR" | "MKDI" | "MKD" | "MK">
-      | < RMDIR : "RMDIR" | "RMDI" | "RMD" | "RM" >
+      | < RMDIR : "RMDIR" | "RMDI" | "RMD" >
       | < PUT : "SEND" | "PUT" >
       | < DELETE : "DELETE" | "DELET" | "DELE" | "DEL" >
       | < MPUT : "MPUT" | "MPU" | "MP" >
@@ -766,7 +775,6 @@ public class FtpParser {
       | < RENAME : "RENAME" | "RENAM" | "RENA" | "REN" >
       | < SIZE : "SIZE" | "SIZ" >
       | < NLIST : "NLIST" | "NLIS" | "NLI" | "NL" >
-	  | < USER : "USER" | "USE" | "US" > 
 	  | < PASSIVE : "PASSIVE" | "PASSIV" | "PASSI" | "PASS" | "PAS" | "PA" >
 	  | < PROMPT : "PROMPT" | "PROMP" | "PROM" >
 	  | < HASH : "HASH" | "HAS" | "HA" >
@@ -796,11 +804,7 @@ void cmd() :
   String a = null;    
   args = new Vector<String>(1); }	{
 	<CRLF> 
-	| LOOKAHEAD( 2 ) <USER> (< SPACE >)+ argList()  
-    {
-        this.commandUSER();
-    }
-	| <USER> 
+	| <USER> (< SPACE >)+ argList()  
     {
         this.commandUSER();
     }
@@ -1157,5 +1161,8 @@ void arg() :
 {
   t=<STRING>
 {
-  args.add(t.toString().trim());}   
+  String s = t.toString().trim();
+  logger.debug("arg is " + s);
+  args.add(s);
+  logger.debug("args has " + args.size() + " elements");}   
 }
