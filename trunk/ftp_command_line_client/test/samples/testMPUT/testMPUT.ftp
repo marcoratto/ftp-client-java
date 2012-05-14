@@ -1,0 +1,8 @@
+open 160.220.142.168
+user rattom rm
+cd /home/rattom/tmp
+lcd ./test/samples/testMPUT
+prompt
+ascii
+mput testMPUT.txt
+bye

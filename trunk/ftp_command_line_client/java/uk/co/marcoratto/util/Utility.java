@@ -1,10 +1,14 @@
 package uk.co.marcoratto.util;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.StringReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.DecimalFormat;
@@ -17,7 +21,35 @@ public final class Utility {
 	
 	private final static Logger logger = Logger.getLogger("uk.co.marcoratto.ftp");
 	
-	private final static String NEWLINE = System.getProperty("line.separator");
+	public final static String NEWLINE = System.getProperty("line.separator");
+
+	public static void stringToFile(File file, String encoding, String buffer) throws UtilityException {
+		BufferedWriter bw = null;
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new StringReader(buffer));
+			bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), encoding));
+			String line = null;
+			String space = "";
+			while ((line = br.readLine()) != null) {
+				bw.write(space);
+				bw.write(line);
+				space = NEWLINE;
+			}
+			logger.info("Write " + buffer.length() + " bytes to file.");
+			logger.debug("The buffer is:" + NEWLINE + buffer);
+		} catch (IOException ioe) {
+			throw new UtilityException(ioe);
+		} finally {
+			if (bw != null) {
+				try {
+					bw.close();
+				} catch (Exception e) {
+					// Ignore
+				}
+			}
+		}
+	}
 
 	public static long getFileSize(String file) {
 		long out = -1;
