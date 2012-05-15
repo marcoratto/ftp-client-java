@@ -14,5 +14,5 @@ The available parameters are the following:
 || *Parameter* || *Mandatory* || *Default* || *Description* ||
 || *-port* || No || 21 || The port to connect to on the remote host ||
 || *-h* || No || || The help ||
-|| *-n* || No || false || inhibit auto-login ||
+|| *-n* || No || false || Inhibit auto-login (useful for -script) ||
 || *-script file* || No || false || Run the script (default interactive/System.in) ||
