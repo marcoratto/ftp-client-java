@@ -1,6 +1,6 @@
 #labels Featured
-Java Application for copying files using [http://en.wikipedia.org/wiki/Secure_copy SCP protocol].
-This java client uses the Apache Ant Task Scp modified (just the dependency from the library {{{jsch-0.1.44.jar}}}).
+Java Application for copying files using [http://en.wikipedia.org/wiki/File_Transfer_Protocol FTP protocol].
+This java client uses the Apache Commons IO libraries.
 
 Some features:
 
