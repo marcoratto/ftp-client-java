@@ -1,6 +1,6 @@
 #labels Featured
 Java Application for copying files using [http://en.wikipedia.org/wiki/File_Transfer_Protocol FTP protocol].
-This java client uses the Apache Commons IO libraries.
+This java client uses the [http://commons.apache.org/net/ Apache Commons Net libraries].
 
 Some features:
 
