@@ -12,5 +12,7 @@ Some features:
 The available parameters are the following:
 
 || *Parameter* || *Mandatory* || *Default* || *Description* ||
-|| *-port* || No || 21 ||The port to connect to on the remote host.||
-|| *-v* || No || false || Determines whether SCP outputs verbosely to the user. Currently this means outputting dots/stars showing the progress of a file transfer.||
+|| *-port* || No || 21 || The port to connect to on the remote host ||
+|| *-h* || No || || The help ||
+|| *-n* || No || false || inhibit auto-login ||
+|| *-script file* || No || false || Run the script (default interactive/System.in) ||
